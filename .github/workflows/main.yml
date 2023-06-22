@@ -27,3 +27,11 @@ jobs:
       run: |
         npm update sfdx-cli --global
         sfdx force --help
+    - name: Decrypt the Encrypted FIle
+      run: |
+        openssl enc -nosalt -aes-256-cbc -d -in assets/server.key.enc -out ${{secrets.KEY_FILE_PATH}} -base64 -K ${{secrets.KEY}} -iv ${{secrets.IV}}
+    - name: Authenticate with Salesforce
+      run: |
+        sfdx auth:jwt:grant --clientid ${{secrets.CLIENT_KEY}} --jwtkeyfile ${{secrets.KEY_FILE_PATH}} --username ${{secrets.SF_USER_NAME}} --setdefaultdevhubusername --setalias my-hub-org
+        
+        
