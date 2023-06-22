@@ -1,0 +1,25 @@
+name: GitHub Actions Demo
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
+
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install NPM
+      run: |
+        npm install
+        
+    # Install the SFDX CLI using npm command
+    - name: Install the SFDX CLI
+      run: |
+        npm install sfdx-cli --global
+        sfdx force --help
+    - name: Update the SFDX CLI
+      run: |
+        npm update sfdx-cli --global
+        sfdx force --help
