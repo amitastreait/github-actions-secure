@@ -14,19 +14,13 @@ jobs:
       uses: actions/checkout@v3.5.3
       with:
         fetch-depth: 0
-    - name: Install NPM
-      run: |
-        npm install
         
     # Install the SFDX CLI using npm command
     - name: Install the SFDX CLI
       run: |
         npm install sfdx-cli --global
         sfdx force --help
-    - name: Update the SFDX CLI
-      run: |
-        npm update sfdx-cli --global
-        sfdx force --help
+        
     - name: Decrypt the Encrypted FIle
       run: |
         openssl enc -nosalt -aes-256-cbc -d -in assets/server.key.enc -out ${{secrets.KEY_FILE_PATH}} -base64 -K ${{secrets.KEY}} -iv ${{secrets.IV}}
@@ -36,6 +30,9 @@ jobs:
     - name: Install SFDX Code Analyzer
       run: |
         sfdx plugins:install @salesforce/sfdx-scanner
+    - name: Create reports folder
+      run: |
+        mkdir reports
     - name: Run Static code analysis
       run: |
         sfdx scanner:run -f html -t "force-app" -e "eslint,retire-js,pmd,cpd" -c "Design,Best Practices,Code Style,Performance,Security" --outfile ./reports/scan-reports.html
