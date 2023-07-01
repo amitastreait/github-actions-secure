@@ -36,3 +36,10 @@ jobs:
     - name: Run Static code analysis
       run: |
         sfdx scanner:run -f html -t "force-app" -e "eslint,retire-js,pmd,cpd" -c "Design,Best Practices,Code Style,Performance,Security" --outfile ./reports/scan-reports.html
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.2
+      with:
+        # Artifact name
+        name: static-code-analysis-report
+        path: reports/scan-reports.html
+    
