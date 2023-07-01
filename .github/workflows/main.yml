@@ -33,5 +33,9 @@ jobs:
     - name: Authenticate with Salesforce
       run: |
         sfdx auth:jwt:grant --clientid ${{secrets.CLIENT_KEY}} --jwtkeyfile ${{secrets.KEY_FILE_PATH}} --username ${{secrets.SF_USER_NAME}} --setdefaultdevhubusername --setalias my-hub-org
-        
-        
+    - name: Install SFDX Code Analyzer
+      run: |
+        sfdx plugins:install @salesforce/sfdx-scanner
+    - name: Run Static code analysis
+      run: |
+        sfdx scanner:run -f html -t "force-app" -e "eslint,retire-js,pmd,cpd" -c "Design,Best Practices,Code Style,Performance,Security" --outfile ./reports/scan-reports.html
